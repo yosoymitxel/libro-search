@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="api-base" content="">
+  <meta name="description" content="Buscá libros por título, autor o tema en varias fuentes.">
+  <title>Libro Search — Encontrá el libro</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <div class="site-frame">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Libro Search, inicio">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M5 7.5c4.2-1.8 8-.8 11 1.6v16c-3-2.4-6.8-3.4-11-1.6z"/><path d="M27 7.5c-4.2-1.8-8-.8-11 1.6v16c3-2.4 6.8-3.4 11-1.6z"/><path d="M16 9v16"/></svg></span>
+        <span class="brand-name">libro<span>search</span></span>
+      </a>
+      <div class="topbar-right"><span class="live-mark"></span><span>BUSCADOR MULTIFUENTE</span><a class="top-link" href="#fuentes">Fuentes <span aria-hidden="true">↘</span></a></div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          
+          <h1>Buscá libros por título,<br>autor o tema.</h1>
+          <p class="hero-intro">Buscá en varios catálogos desde un solo lugar.</p>
+          
+        </div>
+        <div class="hero-graphic" aria-hidden="true">
+          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+          <div class="book-shape book-back"><span>ENSAYO</span><i></i></div>
+          <div class="book-shape book-front"><span>IDEAS<br>EN<br>MOVIMIENTO</span><i></i><small>LS / 01</small></div>
+          <span class="graphic-index">CATÁLOGO<br>ABIERTO — 001</span>
+          <span class="graphic-cross">✳</span>
+        </div>
+        <div class="search-wrap">
+          <form id="search-form" class="search-form">
+            <label class="sr-only" for="query">Título, autor o palabras clave</label>
+            <span class="search-symbol" aria-hidden="true">⌕</span>
+            <input id="query" name="q" placeholder="Probá con un título, autor o tema…" minlength="2" maxlength="120" autocomplete="off" required>
+            <button id="search-button" type="submit">Buscar <span aria-hidden="true">↗</span></button>
+          </form>
+          <div class="search-bottom"><span>MODO DE BÚSQUEDA</span><span>ENTER PARA BUSCAR</span></div>
+          <div class="search-modes" role="group" aria-label="Modo de búsqueda">
+            <button type="button" class="mode-button is-active" data-mode="direct" aria-pressed="true"><span>01</span><b>Buscar directo</b><small>Resultados detectados</small></button>
+            <button type="button" class="mode-button" data-mode="links" aria-pressed="false"><span>02</span><b>Generar enlaces</b><small>Buscadores de cada web</small></button>
+            <button type="button" class="mode-button" data-mode="dorks" aria-pressed="false"><span>03</span><b>Google Dorks</b><small>PDF y EPUB</small></button>
+          </div>
+          <div class="quick-searches"><span>PARA EMPEZAR</span><button type="button" data-query="Mero cristianismo">Mero cristianismo</button><button type="button" data-query="Manifiesto comunista">Manifiesto comunista</button><button type="button" data-query="La mente de los justos">La mente de los justos</button></div>
+        </div>
+      </section>
+
+      <section class="results-section" aria-live="polite">
+        <div class="section-heading">
+          <div><h2 id="result-heading">Resultados de búsqueda</h2></div>
+          <span id="result-total" class="result-total">SIN BÚSQUEDA ACTIVA</span>
+        </div>
+        <div id="source-status" class="source-status"></div>
+        <div id="results" class="results-grid">
+          <div class="welcome-state"><div class="welcome-index">LS<span> / BUSCAR</span></div><div><p class="welcome-label">SIN BÚSQUEDA ACTIVA</p><h3>Ingresá un título, autor o tema.</h3><p>Los resultados se muestran cuando se detectan enlaces. Si una fuente no permite la consulta automática, usá el modo de enlaces directos.</p></div><span class="welcome-arrow" aria-hidden="true">↗</span></div>
+        </div>
+      </section>
+
+      <section class="sources-section" id="fuentes">
+        <div class="sources-intro"><h2>Sitios disponibles</h2><p></p></div>
+        <div class="source-directory" id="source-directory">
+          <a href="https://docer.ar/" target="_blank" rel="noopener noreferrer"><span>01</span><b>Docer</b><span class="directory-arrow">↗</span></a>
+          <a href="https://z-lib.vc/s?q=Dross" target="_blank" rel="noopener noreferrer"><span>02</span><b>Z-Library</b><span class="directory-arrow">↗</span></a>
+          <a href="https://pdfdrive.pw/?q=dross" target="_blank" rel="noopener noreferrer"><span>03</span><b>PDF Drive</b><span class="directory-arrow">↗</span></a>
+          <a href="https://mundoepub.net/" target="_blank" rel="noopener noreferrer"><span>04</span><b>Mundo EPUB</b><span class="directory-arrow">↗</span></a>
+          <a href="https://bookmate.com/" target="_blank" rel="noopener noreferrer"><span>05</span><b>Bookmate</b><span class="directory-arrow">↗</span></a>
+          <a href="https://libronera.com/" target="_blank" rel="noopener noreferrer"><span>06</span><b>Libronera</b><span class="directory-arrow">↗</span></a>
+          <a href="https://epubera1.com/" target="_blank" rel="noopener noreferrer"><span>07</span><b>Epubera</b><span class="directory-arrow">↗</span></a>
+          <a href="https://ww3.lectulandia.co/" target="_blank" rel="noopener noreferrer"><span>08</span><b>Lectulandia</b><span class="directory-arrow">↗</span></a>
+          <a href="https://epublandia.app/search?q=Dross" target="_blank" rel="noopener noreferrer"><span>09</span><b>Epublandia</b><span class="directory-arrow">↗</span></a>
+          <a href="https://openlibrary.org/search" target="_blank" rel="noopener noreferrer"><span>10</span><b>Open Library</b><span class="directory-arrow">↗</span></a>
+          <a href="https://books.google.com/books" target="_blank" rel="noopener noreferrer"><span>11</span><b>Google Books</b><span class="directory-arrow">↗</span></a>\n          <a href="https://archive.org/search?query=dross&amp;tab=texts" target="_blank" rel="noopener noreferrer"><span>12</span><b>Internet Archive</b><span class="directory-arrow">↗</span></a>
+        </div>
+      </section>
+    </main>
+    <footer><a class="footer-brand" href="./">LIBRO SEARCH <span>© 2026</span></a><span>Buscador de libros y documentos.</span><a href="#fuentes">VER LAS FUENTES ↑</a></footer>
+  </div>
+</body>
+</html>

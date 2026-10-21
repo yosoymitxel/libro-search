@@ -1,0 +1,71 @@
+name: Test and deploy Libro Search to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'src/**'
+      - 'public/**'
+      - 'scripts/**'
+      - 'tests/**'
+      - 'playwright.config.js'
+      - 'package.json'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: libro-search-ci-deploy-v2
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install project dependencies
+        run: npm install
+      - name: Check server and client JavaScript syntax
+        run: npm run check
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+      - name: Audit actual search forms and submission behavior on all nine sites
+        run: npm run audit:source-forms
+      - name: Exercise the real UI and all 14 book searches in Playwright
+        run: npm run test:browser
+      - name: Preserve source audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: source-form-audit
+          path: artifacts/source-form-audit.json
+          if-no-files-found: ignore
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Upload static site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

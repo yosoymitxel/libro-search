@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: libro-search
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/sources
+    autoDeploy: true
