@@ -58,6 +58,7 @@ async function detectSearchApi() {
     const data = await response.json();
     if (!Array.isArray(data.sources) || data.sources.length === 0) throw new Error("API sin fuentes");
     apiAvailable = true;
+    setMode("direct");
     directModeButton.hidden = false;
     directModeButton.removeAttribute("aria-hidden");
     directModeButton.disabled = false;
