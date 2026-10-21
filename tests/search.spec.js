@@ -83,7 +83,8 @@ test("los modos de fallback generan búsquedas dinámicas sin llamar a la API", 
   await page.goto("/");
   const query = page.getByLabel("Título, autor o palabras clave");
   await query.fill("Mero cristianismo");
-  await page.locator('[data-mode="links"]').click();
+  await expect(page.locator('[data-mode="links"]')).toHaveClass(/is-active/);
+  await expect(page.locator("#search-button")).toContainText("Generar enlaces");
   await page.locator("#search-button").click();
   await expect(page.locator(".book-card")).toHaveCount(12);
   const docerLink = page.locator(".generated-link-card").filter({ hasText: "Docer.ar" });

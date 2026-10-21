@@ -345,3 +345,6 @@ footer { border-top: 1px solid #f1f3f4; font: 12px var(--sans); }
   .source-tile { flex-basis: 42px; width: 42px; height: 42px; }
   .generated-link-card .source-tile { flex-basis: 42px; width: 42px; height: 42px; }
 }
+
+/* Keep the API-only mode out of view until the availability check confirms it works. */
+.mode-button[hidden] { display: none !important; }

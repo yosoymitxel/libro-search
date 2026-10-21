@@ -6,7 +6,8 @@ const total = document.querySelector("#result-total");
 const resultsEl = document.querySelector("#results");
 const statusEl = document.querySelector("#source-status");
 const modeButtons = [...document.querySelectorAll("[data-mode]")];
-let mode = "direct";
+let mode = "links";
+let apiAvailable = false;
 
 const sources = [
   { id: "docer", name: "Docer.ar", base: "https://docer.ar", search: q => `https://docer.ar/show/?q=${encodeURIComponent(q)}` },
@@ -29,16 +30,46 @@ for (const chip of document.querySelectorAll("[data-query]")) {
     form.requestSubmit();
   });
 }
-modeButtons.forEach(el => el.addEventListener("click", () => {
-  mode = el.dataset.mode;
+function setMode(nextMode) {
+  mode = nextMode;
   modeButtons.forEach(btn => {
-    const active = btn === el;
+    const active = btn.dataset.mode === mode;
     btn.classList.toggle("is-active", active);
     btn.setAttribute("aria-pressed", String(active));
   });
   const labels = { direct: "Buscar directo", links: "Generar enlaces", dorks: "Google Dorks" };
   button.innerHTML = `${labels[mode]} <span aria-hidden="true">↗</span>`;
+}
+modeButtons.forEach(el => el.addEventListener("click", () => {
+  if (el.dataset.mode === "direct" && !apiAvailable) return;
+  setMode(el.dataset.mode);
 }));
+
+async function detectSearchApi() {
+  const directModeButton = document.querySelector('[data-mode="direct"]');
+  const configuredApiBase = document.querySelector('meta[name="api-base"]')?.content.trim() || "";
+  const endpoint = configuredApiBase
+    ? new URL("/api/sources", configuredApiBase).href
+    : new URL("./api/sources", document.baseURI).href;
+  try {
+    const response = await fetch(endpoint, { headers: { Accept: "application/json" } });
+    const contentType = response.headers.get("content-type") || "";
+    if (!response.ok || !contentType.includes("application/json")) throw new Error("API no disponible");
+    const data = await response.json();
+    if (!Array.isArray(data.sources) || data.sources.length === 0) throw new Error("API sin fuentes");
+    apiAvailable = true;
+    directModeButton.hidden = false;
+    directModeButton.removeAttribute("aria-hidden");
+    directModeButton.disabled = false;
+  } catch {
+    apiAvailable = false;
+    directModeButton.hidden = true;
+    directModeButton.setAttribute("aria-hidden", "true");
+    directModeButton.disabled = true;
+    if (mode === "direct") setMode("links");
+  }
+}
+
 
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
@@ -163,11 +194,17 @@ async function searchDirect(query) {
     button.innerHTML = `${labels[mode]} <span aria-hidden="true">↗</span>`;
   }
 }
+detectSearchApi();
+
 form.addEventListener("submit", event => {
   event.preventDefault();
   const query = input.value.trim();
   if (query.length < 2) return;
   if (mode === "links") renderGeneratedLinks(query);
   else if (mode === "dorks") renderDorks(query);
-  else searchDirect(query);
+  else if (apiAvailable) searchDirect(query);
+  else {
+    setMode("links");
+    renderGeneratedLinks(query);
+  }
 });

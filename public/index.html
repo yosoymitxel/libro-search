@@ -40,12 +40,12 @@
             <label class="sr-only" for="query">Título, autor o palabras clave</label>
             <span class="search-symbol" aria-hidden="true">⌕</span>
             <input id="query" name="q" placeholder="Probá con un título, autor o tema…" minlength="2" maxlength="120" autocomplete="off" required>
-            <button id="search-button" type="submit">Buscar <span aria-hidden="true">↗</span></button>
+            <button id="search-button" type="submit">Generar enlaces <span aria-hidden="true">↗</span></button>
           </form>
           <div class="search-bottom"><span>MODO DE BÚSQUEDA</span><span>ENTER PARA BUSCAR</span></div>
           <div class="search-modes" role="group" aria-label="Modo de búsqueda">
-            <button type="button" class="mode-button is-active" data-mode="direct" aria-pressed="true"><span>01</span><b>Buscar directo</b><small>Resultados detectados</small></button>
-            <button type="button" class="mode-button" data-mode="links" aria-pressed="false"><span>02</span><b>Generar enlaces</b><small>Buscadores de cada web</small></button>
+            <button type="button" class="mode-button" data-mode="direct" aria-pressed="false" hidden disabled><span>01</span><b>Buscar directo</b><small>Resultados detectados</small></button>
+            <button type="button" class="mode-button is-active" data-mode="links" aria-pressed="true"><span>02</span><b>Generar enlaces</b><small>Buscadores de cada web</small></button>
             <button type="button" class="mode-button" data-mode="dorks" aria-pressed="false"><span>03</span><b>Google Dorks</b><small>PDF y EPUB</small></button>
           </div>
           <div class="quick-searches"><span>PARA EMPEZAR</span><button type="button" data-query="Mero cristianismo">Mero cristianismo</button><button type="button" data-query="Manifiesto comunista">Manifiesto comunista</button><button type="button" data-query="La mente de los justos">La mente de los justos</button></div>
@@ -59,7 +59,7 @@
         </div>
         <div id="source-status" class="source-status"></div>
         <div id="results" class="results-grid">
-          <div class="welcome-state"><div class="welcome-index">LS<span> / BUSCAR</span></div><div><p class="welcome-label">SIN BÚSQUEDA ACTIVA</p><h3>Ingresá un título, autor o tema.</h3><p>Los resultados se muestran cuando se detectan enlaces. Si una fuente no permite la consulta automática, usá el modo de enlaces directos.</p></div><span class="welcome-arrow" aria-hidden="true">↗</span></div>
+          <div class="welcome-state"><div class="welcome-index">LS<span> / BUSCAR</span></div><div><p class="welcome-label">SIN BÚSQUEDA ACTIVA</p><h3>Ingresá un título, autor o tema.</h3><p>Por defecto genera búsquedas en cada fuente. La búsqueda directa solo aparece si hay una API disponible.</p></div><span class="welcome-arrow" aria-hidden="true">↗</span></div>
         </div>
       </section>
 
