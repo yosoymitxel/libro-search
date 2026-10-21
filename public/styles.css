@@ -47,7 +47,7 @@ a { color: inherit; }
 .search-form button:disabled { opacity: .65; cursor: wait; }
 .search-form button span { margin-left: 10px; }
 .search-bottom { display: flex; justify-content: space-between; gap: 12px; padding: 8px 2px 0; color: var(--muted); font: 10px var(--mono); }
-.search-modes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 18px 0 0; }
+.search-modes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 8px; margin: 18px 0 0; }
 .mode-button { min-width: 0; display: grid; grid-template-columns: 25px minmax(0, 1fr); grid-template-rows: auto auto; gap: 3px 8px; padding: 13px; text-align: left; color: var(--text); background: transparent; border: 1px solid var(--line); border-radius: 5px; cursor: pointer; }
 .mode-button > span { grid-row: 1 / 3; color: var(--muted); font: 11px var(--mono); padding-top: 2px; }
 .mode-button b { font-size: 12px; font-weight: 650; }
