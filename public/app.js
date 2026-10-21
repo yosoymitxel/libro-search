@@ -66,7 +66,7 @@ async function detectSearchApi() {
     directModeButton.hidden = true;
     directModeButton.setAttribute("aria-hidden", "true");
     directModeButton.disabled = true;
-    if (mode === "direct") setMode("links");
+    setMode("links");
   }
 }
 

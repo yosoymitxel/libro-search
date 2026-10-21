@@ -78,14 +78,17 @@ test("la interfaz busca en once fuentes y la API informa resultados reales para 
 
 
 test("los modos de fallback generan búsquedas dinámicas sin llamar a la API", async ({ page }) => {
+  await page.route("**/api/sources", route => route.abort());
   const apiCalls = [];
   page.on("request", request => {
     if (request.url().includes("/api/search")) apiCalls.push(request.url());
   });
   await page.goto("/");
   const query = page.getByLabel("Título, autor o palabras clave");
-  await query.fill("Mero cristianismo");
+  await expect(page.locator('[data-mode="direct"]')).toBeHidden();
   await expect(page.locator('[data-mode="links"]')).toHaveClass(/is-active/);
+  await expect(page.locator('[data-mode="links"]')).toHaveAttribute("aria-pressed", "true");
+  await query.fill("Mero cristianismo");
   await expect(page.locator("#search-button")).toContainText("Generar enlaces");
   await page.locator("#search-button").click();
   await expect(page.locator(".book-card")).toHaveCount(12);
