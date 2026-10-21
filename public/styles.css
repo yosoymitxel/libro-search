@@ -305,3 +305,43 @@ footer { border-top: 1px solid #f1f3f4; font: 12px var(--sans); }
 .generated-link-info { gap:5px; }
 .generated-link-source, .generated-link-title { display:block; }
 .generated-link-title { line-height:1.35; }
+
+
+/* Real destination identity: a compact favicon tile at the left of each result. */
+.source-tile {
+  position: relative;
+  display: grid;
+  flex: 0 0 48px;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  background: #f8f9fa;
+}
+.source-tile img {
+  position: relative;
+  z-index: 1;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+.source-tile-fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #5f6368;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -.3px;
+}
+.source-tile img:not([hidden]) + .source-tile-fallback { display: none; }
+.generated-link-card { align-items: center; }
+.generated-link-card .source-tile { flex-basis: 48px; width: 48px; height: 48px; }
+.book-card .source-tile { margin-top: 1px; }
+@media (max-width: 520px) {
+  .source-tile { flex-basis: 42px; width: 42px; height: 42px; }
+  .generated-link-card .source-tile { flex-basis: 42px; width: 42px; height: 42px; }
+}

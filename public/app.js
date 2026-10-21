@@ -43,10 +43,22 @@ modeButtons.forEach(el => el.addEventListener("click", () => {
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 }
+function domainFor(url) {
+  try { return new URL(url).hostname.replace(/^www\\./, ""); }
+  catch { return "Enlace externo"; }
+}
+function sourceTile(url) {
+  const domain = domainFor(url);
+  const faviconUrl = `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=64`;
+  return `<span class="source-tile" title="${escapeHtml(domain)}" aria-label="Dominio: ${escapeHtml(domain)}">
+    <img src="${escapeHtml(faviconUrl)}" alt="" loading="lazy" onerror="this.hidden=true">
+    <span class="source-tile-fallback" aria-hidden="true">${escapeHtml(domain.slice(0, 2).toUpperCase())}</span>
+  </span>`;
+}
 function card({ source, title, url, format = "Búsqueda web", note = "" }) {
   return `<article class="book-card">
-    <div class="book-cover" aria-hidden="true"><span>${escapeHtml(format.toUpperCase().slice(0, 8))}</span><strong>↗</strong><small>LIBRO SEARCH</small></div>
-    <div class="book-info"><p class="book-source">${escapeHtml(source)} · ${escapeHtml(format)}</p><h3>${escapeHtml(title)}</h3>
+    ${sourceTile(url)}
+    <div class="book-info"><p class="book-source">${escapeHtml(source)} · ${escapeHtml(domainFor(url))}</p><h3>${escapeHtml(title)}</h3>
     ${note ? `<p class="also-found">${escapeHtml(note)}</p>` : ""}
     <a class="open-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">Abrir búsqueda <span>↗</span></a></div>
   </article>`;
@@ -59,8 +71,8 @@ function renderStatuses(rows) {
 }
 function generatedLinkCard({ source, title, url }) {
   return `<a class="book-card generated-link-card" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(title)}">
-    <span class="book-cover generated-link-cover" aria-hidden="true"><span>LIBRO</span><strong>↗</strong><small>SEARCH</small></span>
-    <span class="generated-link-info"><span class="generated-link-source">${escapeHtml(source)} ↗</span><span class="generated-link-title">${escapeHtml(title)}</span></span>
+    ${sourceTile(url)}
+    <span class="generated-link-info"><span class="generated-link-source">${escapeHtml(source)} · ${escapeHtml(domainFor(url))} ↗</span><span class="generated-link-title">${escapeHtml(title)}</span></span>
   </a>`;
 }
 function renderGeneratedLinks(query) {
