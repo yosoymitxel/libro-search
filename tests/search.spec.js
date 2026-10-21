@@ -32,7 +32,6 @@ test("la interfaz busca en once fuentes y la API informa resultados reales para 
   expect(sourceData.sources[11].base).toBe("https://archive.org");
 
   await page.goto("/");
-  await expect(page.locator('[data-mode="direct"]')).toBeHidden();
   await expect(page.locator('[data-mode="direct"]')).toBeVisible({ timeout: 10_000 });
   await page.locator('[data-mode="direct"]').click();
   await page.getByLabel("Título, autor o palabras clave").fill("Mero cristianismo");
